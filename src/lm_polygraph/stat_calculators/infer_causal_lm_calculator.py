@@ -183,7 +183,8 @@ class InferCausalLMCalculator(StatCalculator):
                 "output_hidden_states": True,
             }
         )
-        out = model.generate(model_inputs, **args_generate)
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        out = model.generate(model_inputs.to(device), **args_generate)
 
         result_dict = self._post_process_logits(
             out, model_inputs, args_generate["generation_config"].eos_token_id
