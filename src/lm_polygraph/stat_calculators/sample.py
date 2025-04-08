@@ -155,7 +155,7 @@ class SamplingGenerationCalculator(StatCalculator):
                 - 'sample_log_likelihoods' (List[List[List[float]]]): log probabilities at each token of the sampling generation.
                 - 'sample_embeddings' (List[List[List[float]]]): embeddings from the middle layer for the last token of the sampling generation.
         """
-        batch: Dict[str, torch.Tensor] = model.tokenize(texts)
+        batch: Dict[str, torch.Tensor] = model.tokenize(texts, return_tensors='pt')
         batch = {k: v.to(model.device()) for k, v in batch.items()}        
         sequences, logits, embeddings = _gen_samples(
             self.samples_n,
